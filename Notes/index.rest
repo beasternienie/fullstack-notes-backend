@@ -1,0 +1,26 @@
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "Backend testing is fun or something.",
+  "important": true
+}
+
+### Delete note with id 2.
+DELETE http://localhost:3001/api/notes/2
+Accept: application/json
+
+### Return the landing page.
+GET http://localhost:3001/
+Accept: text/html
+
+### Return note with id 2.
+GET http://localhost:3001/api/notes/2
+Accept: application/json
+
+### Return all notes.
+GET http://localhost:3001/api/notes
+Accept: application/json
+
+###
+

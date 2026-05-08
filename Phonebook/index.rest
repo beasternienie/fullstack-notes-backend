@@ -1,0 +1,20 @@
+DELETE localhost:3001/api/persons/2
+Accept: application/json
+
+###
+POST localhost:3001/api/persons/
+content-type: application/json
+
+{
+    "name": "Bobby Yodel",
+    "number": "071-23456357"
+}
+
+###
+POST localhost:3001/api/persons/
+content-type: application/json
+
+{
+  "name": "",
+  "number": "071-23456357"
+}
