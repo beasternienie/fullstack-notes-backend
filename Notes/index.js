@@ -3,9 +3,6 @@ const app = express()
 app.use(express.json())
 app.use(express.static('dist'))
 
-const cors = require("cors")
-app.use(cors())
-
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
