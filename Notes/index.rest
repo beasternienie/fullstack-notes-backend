@@ -15,7 +15,7 @@ GET http://localhost:3001/
 Accept: text/html
 
 ### Return note with id 2.
-GET http://localhost:3001/api/notes/2
+GET http://localhost:3001/api/notes/6a02b1cf2fb3e77587463c93
 Accept: application/json
 
 ### Return all notes.
