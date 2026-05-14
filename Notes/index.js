@@ -3,28 +3,35 @@ const app = express()
 app.use(express.json())
 app.use(express.static('dist'))
 
-const PORT = process.env.PORT || 3001
+require('dotenv').config()
+
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
 
-let notes = [
-    {
-        id: "1",
-        content: "HTML is easy",
-        important: true
-    },
-    {
-        id: "2",
-        content: "Browser can execute only JavaScript",
-        important: false
-    },
-    {
-        id: "3",
-        content: "GET and POST are the most important methods of HTTP protocol",
-        important: true
-    }
-]
+// Database
+const Note = require('./models/note')
+
+// // Notes
+// let notes = [
+//     {
+//         id: "1",
+//         content: "HTML is easy",
+//         important: true
+//     },
+//     {
+//         id: "2",
+//         content: "Browser can execute only JavaScript",
+//         important: false
+//     },
+//     {
+//         id: "3",
+//         content: "GET and POST are the most important methods of HTTP protocol",
+//         important: true
+//     }
+// ]
+
 // Landing page.
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
@@ -32,20 +39,15 @@ app.get('/', (request, response) => {
 
 // Get all notes.
 app.get('/api/notes', (request, response) => {
-    response.json(notes)
+    Note.find({}).then((notes) => response.json(notes))
 })
 
 // Get specific note by id.
 app.get('/api/notes/:id', (request, response) => {
-    const id = request.params.id
-    const note = notes.find(note => note.id === id)
-
-    if (note){
-        response.json(note)
-    }
-    else{
-        response.status(404).end(`No such note with id ${id}`)
-    }
+    Note.findById(request.params.id)
+        .then((note) => {
+            response.json(note)
+        })
 })
 
 // Delete a note by id.
@@ -75,10 +77,11 @@ app.post('/api/notes', (request, response) => {
     const note = {
         content: body.content,
         important: body.important || false,
-        id: generateId()    // Give the note a new id.
     }
-    notes = notes.concat(note)            // Add the note.
 
-    response.json(note)
+    note.save().then(note => {
+        response.json(note)
+    })
+
 })
 
