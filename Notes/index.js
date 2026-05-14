@@ -53,23 +53,21 @@ app.delete('/api/notes/:id', (request, response, next) => {
 })
 
 // Add a new note.
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', (request, response, next) => {
     const body = request.body
-
-    if (!body.content){
-        return response.status(400).json({
-            error: 'Content is missing.'
-        })
-    }
 
     const note = new Note({
         content: body.content,
         important: body.important || false,
     })
 
-    note.save().then(note => {
-        response.json(note)
-    })
+    note.save()
+        .then(note => {
+            response.json(note)
+        })
+        .catch((err) => {
+            next(err)
+        })
 
 })
 
@@ -100,6 +98,9 @@ const errorHandler = (err, req, res, next) => {
     console.error(err.message)
     if (err.name === 'CastError'){
         return res.status(400).send({ error: 'ID is malformed.'})
+    }
+    if (err.name === 'ValidationError'){
+        return res.status(400).json({ error: err.message})
     }
 
     next(err)
