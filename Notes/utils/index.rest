@@ -2,8 +2,9 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-  "content": "Backend testing is fun or something.",
-  "important": true
+  "content": "Hello World, Hello Universe",
+  "important": true,
+  "userId": "6a0665bc909fe9960521282e"
 }
 
 ### Delete note with id 2.
@@ -22,5 +23,13 @@ Accept: application/json
 GET http://localhost:3001/api/notes
 Accept: application/json
 
-###
+### Add a user.
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  "username": "nienie",
+  "name": "Nienie",
+  "password": "coolbeansbro"
+}
 
